@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import { parseSetCookie } from '@edge-runtime/cookies';
 import { checkSession } from './lib/api/serverApi';
 
 const privateRoutes = ['/profile', '/notes'];
@@ -27,9 +28,10 @@ export async function proxy(request: NextRequest) {
       const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
 
       cookieArray.forEach((cookieStr) => {
-        const [pair] = cookieStr.split(';');
-        const [name, ...rest] = pair.split('=');
-        cookieStore.set(name, rest.join('='));
+        const parsedCookie = parseSetCookie(cookieStr);
+        if (parsedCookie) {
+          cookieStore.set(parsedCookie);
+        }
       });
 
       if (isPublicRoute) {
