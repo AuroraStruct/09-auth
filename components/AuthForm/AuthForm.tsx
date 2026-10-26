@@ -29,7 +29,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
           : await login({ email, password });
 
       setUser(user);
-      router.push('/notes/filter/all');
+      router.push('/profile');
     } catch {
       setError('Something went wrong. Please check your email and password.');
     }
