@@ -42,9 +42,7 @@ export const checkSession = async () => {
     },
   });
 
-  const setCookie = res.headers['set-cookie'];
-
-  return { data: res.data, setCookie };
+  return res;
 };
 
 export const getMe = async (): Promise<User> => {
